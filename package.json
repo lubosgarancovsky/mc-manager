@@ -1,0 +1,39 @@
+{
+  "name": "mc-manager",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@nextui-org/button": "^2.0.37",
+    "@nextui-org/dropdown": "^2.1.29",
+    "@nextui-org/input": "^2.2.4",
+    "@nextui-org/modal": "^2.0.39",
+    "@nextui-org/progress": "^2.0.33",
+    "@nextui-org/system": "^2.2.5",
+    "@nextui-org/table": "^2.0.39",
+    "@nextui-org/theme": "^2.2.9",
+    "@tauri-apps/api": "^1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.3.19",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.4.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.7",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.1"
+  }
+}

@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Inter";
+    src: url("./fonts/Inter-VariableFont_slnt,wght.woff2") format("woff2");
+  }
+
+  html {
+    font-family: "Inter", sans-serif;
+  }
+
+  body,
+  body:first-child {
+    @apply h-screen;
+  }
+
+  body {
+    @apply overflow-y-hidden;
+  }
+
+  #root,
+  #root > div:first-child {
+    @apply dark h-full bg-background;
+  }
+
+  h1 {
+    @apply text-4xl font-bold;
+  }
+
+  h2 {
+    @apply text-2xl font-bold;
+  }
+
+  /* For Webkit browsers */
+  ::-webkit-scrollbar {
+    @apply w-[6px]; /* Width of the scrollbar */
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-default-200 /* Track background */;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary-500 rounded-[6px]; /* Thumb color */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary-600; /* Thumb color on hover */
+  }
+}
