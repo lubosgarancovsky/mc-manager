@@ -77,7 +77,7 @@ const ModsTable: React.FC = ({}) => {
 
         <Table
           aria-label="List of installed mods"
-          className="h-[calc(100%_-_250px)] min-h-[12rem]"
+          className="h-[calc(100%_-_200px)] min-h-[12rem]"
         >
           <TableHeader>
             <TableColumn>Title</TableColumn>
