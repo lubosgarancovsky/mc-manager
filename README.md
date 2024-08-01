@@ -5,8 +5,7 @@ Minecraft manger tool for installing and removing mods, resource packs and shade
 [![React](https://img.shields.io/badge/-ReactJs-61DAFB?logo=react&logoColor=white&style=for-the-badge)](https://reactjs.org/)
 [![Tauri](https://img.shields.io/badge/Tauri-FFC131?style=for-the-badge&logo=Tauri&logoColor=white)](https://tauri.app/)
 
-<img src="https://raw.githubusercontent.com/lubosgarancovsky/mc-manager/main/docs/assets/mc-manager-thumbnail.webp
-" alt='mc-manager thumbnail'/>
+<img src="https://raw.githubusercontent.com/lubosgarancovsky/mc-manager/main/docs/assets/mc-manager-thumbnail.webp" alt='mc-manager thumbnail'/>
 
 ## Instalation guide
 
