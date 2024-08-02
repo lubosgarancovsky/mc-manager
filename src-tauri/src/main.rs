@@ -5,6 +5,9 @@
 mod settings;
 mod paths;
 mod mods;
+mod resourcepacks;
+mod shared;
+mod shaderpacks;
 
 fn main() {
     tauri::Builder::default()
@@ -20,7 +23,17 @@ fn main() {
             settings::load_settings,
             settings::save_settings,
             settings::run_minecraft,
-            paths::path_to_appdata,])
+            resourcepacks::get_resourcepacks,
+            resourcepacks::remove_resourcepack,
+            resourcepacks::add_resourcepack,
+            paths::path_to_appdata,
+            paths::resourcepacks_folder_path,
+            paths::shaders_folder_path,
+            paths::mods_folder_path,
+            shaderpacks::get_shaders,
+            shaderpacks::add_shader,
+            shaderpacks::remove_shader
+            ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

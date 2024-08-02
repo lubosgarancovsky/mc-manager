@@ -5,3 +5,4 @@ export { default as DeleteIcon } from "./DeleteIcon";
 export { default as MoreIcon } from "./MoreIcon";
 export { default as ReloadIcon } from "./ReloadIcon";
 export { default as PlayIcon } from "./PlayIcon";
+export { default as FolderIcon } from "./FolderIcon";

@@ -3,6 +3,7 @@ use serde::{Serialize, Deserialize};
 
 use crate::settings::{save_mods, load_mods};
 use crate::paths::{mods_folder_path, mods_file_path, disabled_folder_path};
+use crate::shared::copy_into_folder;
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Mod {
@@ -139,25 +140,16 @@ pub fn change_status(item: Mod) {
 }
 
 #[tauri::command]
-pub fn add_mod(path_to_mod: Vec<&str>) {
-
+pub fn add_mod(paths: Vec<&str>) {
     let mods_folder = mods_folder_path();
-
-    for path in path_to_mod {
-        let path = Path::new(path);
-        let destination = mods_folder.join(path.file_name().unwrap());
-
-        if path.exists() && !destination.exists() {
-            fs::copy(path, destination).unwrap();
-        }
-    }
+    copy_into_folder(paths, mods_folder);
 }
 
 #[tauri::command]
-pub fn remove_mod(mod_to_remove: Mod) {
-    let path = match mod_to_remove.enabled {
-        true => mods_folder_path().join(&mod_to_remove.file_name),
-        false => disabled_folder_path().join(&mod_to_remove.file_name),
+pub fn remove_mod(data: Mod) {
+    let path = match data.enabled {
+        true => mods_folder_path().join(&data.file_name),
+        false => disabled_folder_path().join(&data.file_name),
     };
 
     fs::remove_file(path).unwrap();

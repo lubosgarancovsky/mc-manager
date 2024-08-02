@@ -11,10 +11,6 @@ use crate::paths::{path_to_local_appdata, mods_file_path, settings_path };
 
 const MANAGER_FOLDER_NAME: &str = ".mc-manager";
 const SETTINGS_FILE_NAME: &str = "settings.json";
-const MC_FOLDER_NAME: &str = ".minecraft";
-pub const MODS_FOLDER_NAME: &str = "mods";
-pub const MODS_FILE_NAME: &str = "mods.json";
-pub const DISABLED_FOLDER_NAME: &str = "disabled";
 
 #[derive(Serialize, Deserialize)]
 pub struct Settings {

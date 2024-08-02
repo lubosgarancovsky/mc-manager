@@ -1,6 +1,6 @@
-import React from "react";
-import { fileSize } from "../../utils";
-import { AddIcon, ArrowDownIcon, DeleteIcon, ReloadIcon } from "../../icons";
+import React, { useMemo } from "react";
+import { fileSize, Mod, openFolder } from "../../utils";
+import { ArrowDownIcon, DeleteIcon } from "../../icons";
 import { Button, ButtonGroup } from "@nextui-org/button";
 import {
   Table,
@@ -17,55 +17,83 @@ import {
   DropdownTrigger,
 } from "@nextui-org/dropdown";
 import { cn } from "@nextui-org/theme";
-import { Input } from "@nextui-org/input";
 import { Progress } from "@nextui-org/progress";
-import DeleteModDialog from "./DeleteModDialog";
-import useModsTable from "./use-mods-table";
+import { invoke } from "@tauri-apps/api";
+import { useResource } from "../../hooks";
+import { DeleteConfirmationDialog } from "../DeleteConfirmationDialog";
+import { ResourceActions } from "../ResourceActions";
 
 const ModsTable: React.FC = ({}) => {
   const {
-    mods,
-    allDisabled,
-    modToDelete,
-    enabledCount,
+    data,
+    displayedData,
+    dataToDelete,
     search,
-    loadMods,
-    setModToDelete,
-    handleChange,
-    handleAddMod,
     handleSearch,
-    handleDelete,
-    handleSwitchAllModes,
-  } = useModsTable();
+    setDataToDelete,
+    loadData,
+    addData,
+    removeData,
+  } = useResource<Mod>({
+    getDataFn: "list_mods",
+    addDataFn: "add_mod",
+    removeDataFn: "remove_mod",
+    extensions: ["jar"],
+  });
+
+  const handleChange = async (mod: Mod) => {
+    await invoke("change_status", { item: mod });
+    await loadData();
+  };
+
+  const enabledCount = useMemo(() => {
+    return data.filter((mod) => mod.enabled).length;
+  }, [data]);
+
+  const handleSwitchAllModes = async (toEnabled: boolean) => {
+    await invoke(toEnabled ? "enable_all_mods" : "disable_all_mods");
+    loadData();
+  };
+
+  const openModsFolder = async () => {
+    await openFolder("mods_folder_path");
+  };
+
+  const allDisabled = enabledCount === 0 && data.length > 0;
 
   return (
     <>
-      <DeleteModDialog
-        mod={modToDelete}
-        onDelete={handleDelete}
-        onClose={() => setModToDelete(null)}
-      />
+      <DeleteConfirmationDialog
+        isOpen={!!dataToDelete}
+        title={
+          dataToDelete
+            ? `Are you sure you want to delete ${dataToDelete?.name}?`
+            : ""
+        }
+        onDelete={removeData}
+        onClose={() => setDataToDelete(null)}
+      >
+        After you delete this mod, it will be permanently removed from your
+        computer.
+      </DeleteConfirmationDialog>
+
       <div className="flex flex-col gap-6 h-full">
         <div className="flex justify-between">
           <h2>Installed mods</h2>
           <Progress
             className="max-w-[24rem]"
             size="sm"
-            label={`${enabledCount} / ${mods.length} mods active`}
-            value={(enabledCount / mods.length) * 100}
+            label={`${enabledCount} / ${data.length} mods active`}
+            value={(enabledCount / data.length) * 100}
           />
         </div>
         <div className="flex gap-3 items-center">
-          <Button isIconOnly onPress={handleAddMod}>
-            <AddIcon className="w-5" />
-          </Button>
-          <Button isIconOnly onPress={loadMods}>
-            <ReloadIcon className="w-5" />
-          </Button>
-          <Input
-            placeholder="Search..."
-            value={search}
-            onChange={handleSearch}
+          <ResourceActions
+            addData={addData}
+            loadData={loadData}
+            openFolder={openModsFolder}
+            search={search}
+            handleSearch={handleSearch}
           />
           <Button
             color={allDisabled ? "success" : "danger"}
@@ -85,7 +113,7 @@ const ModsTable: React.FC = ({}) => {
             <TableColumn align="end">Actions</TableColumn>
           </TableHeader>
           <TableBody emptyContent={"No mods are installed yet."}>
-            {mods.map((mod, i) => (
+            {displayedData.map((mod, i) => (
               <TableRow key={i}>
                 <TableCell
                   className={cn("duration-300", {
@@ -121,7 +149,7 @@ const ModsTable: React.FC = ({}) => {
                         className="text-danger"
                         color="danger"
                         startContent={<DeleteIcon className="w-5" />}
-                        onPress={() => setModToDelete(mod)}
+                        onPress={() => setDataToDelete(mod)}
                       >
                         Delete mod
                       </DropdownItem>

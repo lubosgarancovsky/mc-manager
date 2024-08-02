@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { Header, ModsTable } from "../../components";
+import {
+  Header,
+  ModsTable,
+  ResourcepacksList,
+  ShaderpacksList,
+} from "../../components";
 import { Sidebar } from "../../components/Sidebar";
 
 export type DashBoardView = "mods" | "resource_packs" | "shaders";
@@ -20,6 +25,8 @@ const DashBoard: React.FC = () => {
         </aside>
         <main className="p-6 w-full h-full">
           {view === "mods" && <ModsTable />}
+          {view === "resource_packs" && <ResourcepacksList />}
+          {view === "shaders" && <ShaderpacksList />}
         </main>
       </div>
     </div>
